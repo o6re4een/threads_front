@@ -1,0 +1,3 @@
+.action-card {
+  @apply bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition text-center text-xl font-medium text-blue-600 hover:bg-blue-50;
+}
