@@ -1,20 +1,28 @@
 <template>
-  <div class="flex first-child:border-b-2 border-red-300">
+  <div class="flex first-child:border-b-2 border-red-300" :class="groupClass">
     <!-- Линия вложенности -->
-    <div v-if="level > 0" class="relative w-4 flex justify-start group/thread">
+    <div v-if="level > 0" class="relative w-4 flex justify-start">
       <!-- <div class="border-l-1 border-black"></div> -->
       <div
-        class="w-1 border-l-3 border-gray-300 -top-4 absolute cursor-pointer group-hover/thread:border-purple-500 transition-colors duration-300"
-        :class="`${isLastChild ? 'h-4' : 'h-[105%]'} `"
+        class="w-1 border-l-3 -top-4 absolute cursor-pointer transition-colors duration-300"
+        :class="[
+          isLastChild ? 'h-4' : 'h-[105%]',
+          isHovered ? 'border-purple-500' : 'border-gray-300',
+        ]"
       ></div>
 
       <div
-        class="h-6 w-4 rounded-bl-lg border-l-3 border-gray-300 border-b-3 cursor-pointer group-hover/thread:border-purple-500 transition-colors duration-300"
+        class="h-6 w-4 rounded-bl-lg border-l-3 border-b-3 cursor-pointer transition-colors duration-300"
+        :class="[isHovered ? 'border-purple-500' : 'border-gray-300']"
       ></div>
     </div>
 
     <!-- Контент треда -->
-    <div class="flex-1 pb-2">
+    <div
+      class="flex-1 pb-2"
+      @mouseenter="isHovered = true"
+      @mouseleave="isHovered = false"
+    >
       <div
         class="bg-blue-200 rounded-xl p-3 hover:bg-blue-300 transition-colors"
       >
@@ -54,9 +62,10 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import ThreadItem from "./ThreadItem.vue";
-
+const isHovered = ref(false);
+const groupClass = computed(() => `group-level-${props.level}`);
 const props = defineProps({
   thread: Object,
   level: {

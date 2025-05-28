@@ -4,8 +4,6 @@
     <main class="container mx-auto flex flex-col items-center justify-center">
       <router-view />
     </main>
-
-    <footer>My footer</footer>
   </div>
 </template>
 

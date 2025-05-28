@@ -34,26 +34,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { onMounted, watch } from "vue";
-
-import { usePostStore } from "../store/PostStore";
-import { storeToRefs } from "pinia";
-
-const postStore = usePostStore();
-const { loading, posts, sortBy, error } = storeToRefs(postStore);
-const { fetchPosts } = usePostStore();
-
-watch(sortBy, (newSortBy) => {
-  fetchPosts(newSortBy);
-});
-
-onMounted(() => {
-  fetchPosts(sortBy.value);
-});
-const btnClass = (type) =>
-  `px-4 py-2 rounded border ${
-    sortBy.value === type ? "bg-blue-500 text-white" : "bg-white"
-  }`;
-</script>
