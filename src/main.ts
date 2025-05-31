@@ -7,8 +7,10 @@ import PrimeVue from "primevue/config";
 import Aura from "@primeuix/themes/aura";
 const pinia = createPinia();
 import "primeicons/primeicons.css";
+import ToastService from "primevue/toastservice";
 
 const app = createApp(App);
+app.use(ToastService);
 app
   .use(PrimeVue, {
     theme: {

@@ -1,7 +1,10 @@
 /* 1. Use a more-intuitive box-sizing model */
 @import "tailwindcss";
+@import "tailwindcss-primeui";
 :root {
   --btn-bg-color: rgb(44, 62, 80);
   --header-bg-color: #3498db;
   --card-bg-color: #3498db80;
+
+  --primary-color: rgb(44, 62, 80);
 }

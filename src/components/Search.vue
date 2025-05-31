@@ -6,7 +6,7 @@
     >
       <input
         type="text"
-        class="p-3 w-full outline-none rounded-[33px] text-white bg-(--btn-bg-color) placeholder:text-white placeholder:text-base"
+        class="p-3 w-full outline-none rounded-[8px] text-white bg-(--btn-bg-color) placeholder:text-white placeholder:text-base"
         placeholder="Поиск"
         autofocus
       />
