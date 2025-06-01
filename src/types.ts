@@ -31,6 +31,10 @@ export type Thread = {
   children: Thread[] | null;
 };
 
+export type Category = {
+  name: string;
+};
+
 export type Post = {
   id: number;
   title: string;

@@ -91,6 +91,9 @@ export function useCreateThread() {
     await postStore.fetchPost(postId);
     threads.value = postStore.selectedPost?.threads || [];
   };
+  const initializeCategories = async () => {
+    await postStore.getCategories();
+  };
 
   return {
     isEditing,
@@ -103,5 +106,6 @@ export function useCreateThread() {
     initializeThreads,
     toggleEditorForThread,
     activeEditorThreadId,
+    initializeCategories,
   };
 }

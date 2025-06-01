@@ -8,3 +8,15 @@ export const getTimeAgo = (timestamp: string) => {
   if (diff < 86400) return `${Math.floor(diff / 3600)} часов назад`;
   return `${Math.floor(diff / 86400)} дней назад`;
 };
+
+// debounce.ts
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number
+): T {
+  let timeout: ReturnType<typeof setTimeout>;
+  return function (...args: any[]) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  } as T;
+}

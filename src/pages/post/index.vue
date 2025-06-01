@@ -17,14 +17,14 @@
         class="flex flex-col md:flex-row justify-between text-sm text-gray-700 gap-2 items-end md:items-center"
       >
         <div
-          class="flex items-center gap-2 bg-[var(--primary-color)] text-white px-3 py-1 rounded-md"
+          class="flex items-center gap-2 bg-(--primary-color) text-white px-3 py-1 rounded-md"
         >
           <span>Автор: {{ selectedPost.author?.user_name || "Anon" }}</span>
           <span class="ml-4">{{ getTimeAgo(selectedPost.created_at) }}</span>
         </div>
 
         <div
-          class="flex items-center gap-2 bg-[var(--primary-color)] text-white px-3 py-1 rounded-md"
+          class="flex items-center gap-2 bg-(--primary-color) text-white px-3 py-1 rounded-md"
         >
           <Button
             style="background-color: var(--primary-color)"

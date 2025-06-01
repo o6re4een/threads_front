@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/store/auth";
 import axios from "axios";
+import * as toast from "@/composables/toast";
 
 const instance = axios.create({
   baseURL: "http://localhost:8000",
@@ -13,6 +14,10 @@ instance.interceptors.response.use(
       // Разлогиниваем пользователя при 401
       const authStore = useAuthStore(); // Получаем store
       authStore.logout(); // Вызываем logout
+      toast.error(
+        "Ошибка авторизации!",
+        "Время авторизации истекло, авторизуйтесь снова!"
+      ); // Показываем сообщение об ошибке
     }
 
     return Promise.reject(error); // Прокидываем ошибку дальше

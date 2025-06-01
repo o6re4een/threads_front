@@ -127,13 +127,13 @@
       </div>
     </div>
     <div
-      v-if="modalImage"
+      v-if="modalImage && thread.image_url"
       class="fixed inset-0 bg-opacity-70 backdrop-blur-[40px] flex items-center justify-center z-50"
       @click.self="closeImage"
     >
       <img
         @click="closeImage"
-        :src="thread?.image_url"
+        :src="thread.image_url"
         class="max-w-[90vw] max-h-[90vh] rounded-lg cursor-zoom-out"
         alt="Увеличенное изображение"
       />
@@ -174,7 +174,7 @@ const props = defineProps({
   },
   toggleEditorForThread: {
     type: Function,
-    ddefault: () => {},
+    default: () => {},
   },
   createRootThread: {
     type: Function,
@@ -185,13 +185,15 @@ const props = defineProps({
     default: () => {},
   },
   handleUpload: {
-    type: Function,
+    type: Function as PropType<
+      (event: import("primevue/fileupload").FileUploadUploadEvent) => void
+    >,
     default: () => {},
   },
 });
-const modalImage = ref(null);
+const modalImage = ref<string | null>(null);
 
-const showImage = (url) => {
+const showImage = (url: string) => {
   modalImage.value = url;
 };
 
