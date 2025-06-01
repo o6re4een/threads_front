@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import instance from "../axios";
 import type {
   Category,
+  createPostPayload,
   createRootThreadPayload,
   createSubThreadPayload,
   Post,
@@ -93,7 +94,14 @@ export const usePostStore = defineStore("posts", {
       }
     },
     async createRootThread(payload: createRootThreadPayload) {
-      const { authHeaders } = useAuthStore();
+      const { authHeaders, isLoggedIn } = useAuthStore();
+      if (isLoggedIn === false) {
+        toast.error(
+          "Вы не авторизованы",
+          "Авторизуйтесь, прежде чем писать комментарии"
+        );
+        return false;
+      }
 
       try {
         const response = await instance.post(
@@ -122,7 +130,14 @@ export const usePostStore = defineStore("posts", {
       return true;
     },
     async createSubThread(payload: createSubThreadPayload) {
-      const { authHeaders } = useAuthStore();
+      const { authHeaders, isLoggedIn } = useAuthStore();
+      if (isLoggedIn === false) {
+        toast.error(
+          "Вы не авторизованы",
+          "Авторизуйтесь, прежде чем писать комментарии"
+        );
+        return false;
+      }
 
       try {
         const response = await instance.post(
@@ -152,11 +167,15 @@ export const usePostStore = defineStore("posts", {
       return true;
     },
 
-    async createPost(payload: {
-      title: string;
-      content?: string;
-      image_url?: string;
-    }) {
+    async createPost(payload: createPostPayload) {
+      const { authHeaders, isLoggedIn } = useAuthStore();
+      if (isLoggedIn === false) {
+        toast.error(
+          "Вы не авторизованы",
+          "Авторизуйтесь, прежде чем писать комментарии"
+        );
+        return false;
+      }
       try {
         const response = await instance.post(
           "/post",
@@ -164,10 +183,11 @@ export const usePostStore = defineStore("posts", {
             title: payload.title,
             content: payload.content || "",
             image_url: payload.image_url || null,
+            category: payload.category || "",
           },
           {
             headers: {
-              ...useAuthStore().authHeaders(),
+              ...authHeaders(),
             },
 
             withCredentials: true,

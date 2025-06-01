@@ -3,7 +3,7 @@ import axios from "axios";
 import * as toast from "@/composables/toast";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
   //   withCredentials: true,
 });

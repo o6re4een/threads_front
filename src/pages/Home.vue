@@ -23,7 +23,7 @@
     </div>
 
     <!-- Сортировка -->
-    <div class="flex flex-wrap gap-4 mb-6">
+    <!-- <div class="flex flex-wrap gap-4 mb-6">
       <button @click="setSort('relevant')" :class="btnClass('relevant')">
         Активные
       </button>
@@ -31,7 +31,10 @@
         Новые
       </button>
       <button @click="setSort('old')" :class="btnClass('old')">Старые</button>
-    </div>
+    </div> -->
+
+    <SortComponent v-on:update-sort="handeSortChange" />
+
     <div
       class="absolute bg-(--primary-color) rounded-lg p-2 z-10"
       v-if="categoryEnabled && categories?.length"
@@ -63,12 +66,7 @@
         :to="{ name: 'PostDetail', params: { id: post.id } }"
         class="rounded-lg shadow p-4 bg-(--card-bg-color) hover:shadow-lg transition"
       >
-        <h2 class="text-lg font-semibold">{{ post.title }}</h2>
-        <p class="text-gray-600 line-clamp-3 mt-2">{{ post.content }}</p>
-        <div class="text-sm text-gray-500 mt-2">
-          {{ post.threads_count }} тредов · Автор:
-          {{ post.author?.user_name || "Неизвестный" }}
-        </div>
+        <PostListCard :post="post" />
       </router-link>
     </div>
 
@@ -94,6 +92,8 @@ import { storeToRefs } from "pinia";
 import Button from "primevue/button";
 import Pagination from "@/components/Pagination.vue";
 import Listbox from "primevue/listbox";
+import PostListCard from "@/components/PostListCard.vue";
+import SortComponent from "@/components/SortComponent.vue";
 const postStore = usePostStore();
 const {
   posts,
@@ -102,7 +102,6 @@ const {
   currentPage,
   total,
   limit,
-  sortBy,
   categories,
   selectedCategory,
 } = storeToRefs(postStore);
@@ -126,24 +125,13 @@ watch(selectedCategory, async () => {
 });
 
 // Когда меняется сортировка, сбрасываем на первую страницу
-watch(sortBy, () => {
-  setPage(1);
-});
+const handeSortChange = async (sort: string) => {
+  console.log("sort", sort);
+  setSort(sort);
+};
 
 // Обработчик события смены страницы от компонента Pagination.vue
 function onPageChange(newPage: number) {
   setPage(newPage);
-}
-
-// Класс для кнопок сортировки
-const btnClass = (type: string) =>
-  `px-4 py-2 rounded border ${
-    sortBy.value === type
-      ? "bg-(--primary-color) text-white"
-      : "bg-white hover:bg-gray-100"
-  }`;
-
-function onBeforeMounted(arg0: () => Promise<void>) {
-  throw new Error("Function not implemented.");
 }
 </script>

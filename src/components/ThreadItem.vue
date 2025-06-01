@@ -83,20 +83,7 @@
           </Message>
         </FloatLabel>
 
-        <FileUpload
-          ref="fileUploadRef"
-          name="file"
-          :auto="true"
-          url="http://localhost:8000/uploads"
-          @upload="handleUpload"
-          accept="image/*"
-          :multiple="false"
-          :maxFileSize="5 * 1024 * 1024"
-        >
-          <template #empty>
-            <span>Перетащите изображение сюда или нажмите для загрузки.</span>
-          </template>
-        </FileUpload>
+        <ImageUploader @upload="handleUpload"></ImageUploader>
 
         <Button
           type="submit"
@@ -151,7 +138,8 @@ import Button from "primevue/button";
 import Message from "primevue/message";
 import Textarea from "primevue/textarea";
 import FloatLabel from "primevue/floatlabel";
-import FileUpload from "primevue/fileupload";
+import ImageUploader from "@/components/ImageUploader.vue";
+
 const isHovered = ref(false);
 
 const groupClass = computed(() => `group-level-${props.level}`);

@@ -5,7 +5,7 @@ import type { createRootThreadPayload, createSubThreadPayload } from "@/types";
 import { useRoute } from "vue-router";
 import * as toast from "@/composables/toast";
 // import { useToast } from "primevue/usetoast";
-export function useCreateThread() {
+export function useCustomEditor() {
   const postStore = usePostStore();
   const route = useRoute();
   const postId = route.params.id;
@@ -42,6 +42,12 @@ export function useCreateThread() {
     }
   };
 
+  const onSuccess = async () => {
+    await postStore.fetchPost(postId);
+    threads.value = postStore.selectedPost?.threads || [];
+    toast.success("Тред успешно создан", "Ваш под-тред был успешно добавлен.");
+  };
+
   const createRootThread = async ({ values }: any) => {
     const payload: createRootThreadPayload = {
       content: values.values.content,
@@ -53,11 +59,11 @@ export function useCreateThread() {
       subTreadpayload.parent_id = activeEditorThreadId.value;
 
       toggleEditorForThread(null);
-      toggleEditor();
       try {
         const newThread = await postStore.createSubThread(subTreadpayload);
-        await postStore.fetchPost(postId);
-        threads.value = postStore.selectedPost?.threads || [];
+        if (newThread) {
+          await onSuccess();
+        }
       } catch (error) {
         console.error("Ошибка при создании под-треда:", error);
         toast.error(
@@ -70,9 +76,7 @@ export function useCreateThread() {
       try {
         const newThread = await postStore.createRootThread(payload);
         if (newThread) {
-          toggleEditor();
-          await postStore.fetchPost(postId);
-          threads.value = postStore.selectedPost?.threads || [];
+          await onSuccess();
         }
       } catch (err) {
         console.error("Ошибка при создании треда:", err);
@@ -84,7 +88,7 @@ export function useCreateThread() {
     }
     fileUploadRef.value = null; // Clear the file upload input after creating thread
     fileUrl.value = null; // Reset fileUrl after creating thread
-    toast.success("Тред успешно создан", "Ваш тред был успешно добавлен.");
+    toggleEditor(); // Close the editor
   };
 
   const initializeThreads = async () => {

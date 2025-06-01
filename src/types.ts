@@ -56,3 +56,10 @@ export type User = {
   threads_count: number;
   posts_count: number;
 };
+
+export type createPostPayload = {
+  title: string;
+  content: string;
+  image_url?: string | null;
+  category?: string;
+};

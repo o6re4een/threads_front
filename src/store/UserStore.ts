@@ -45,11 +45,12 @@ export const useUserStore = defineStore("user", {
     },
     async getUser() {
       this.loading = true;
+      const { authHeaders } = useAuthStore();
       try {
         const response = await instance.get(`/user/me`, {
           withCredentials: true,
           headers: {
-            ...useAuthStore().authHeaders(),
+            ...authHeaders(),
           },
         });
         if (response.status !== 200) {

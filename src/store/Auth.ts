@@ -36,7 +36,7 @@ export const useAuthStore = defineStore("auth", {
     authHeaders() {
       return {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this!.token!.access_token}`,
+        Authorization: `Bearer ${this.token.access_token}`,
       };
     },
     async login(payload: { username: string; password: string }) {

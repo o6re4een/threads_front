@@ -67,20 +67,7 @@
           </Message>
         </FloatLabel>
 
-        <FileUpload
-          ref="fileUploadRef"
-          name="file"
-          :auto="true"
-          url="http://localhost:8000/uploads"
-          @upload="handleUpload"
-          accept="image/*"
-          :multiple="false"
-          :maxFileSize="5 * 1024 * 1024"
-        >
-          <template #empty>
-            <span>Перетащите изображение сюда или нажмите для загрузки.</span>
-          </template>
-        </FileUpload>
+        <ImageUploader :on-upload="handleUpload" />
 
         <Button
           type="submit"
@@ -108,7 +95,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useCreateThread } from "@/composables/useCreateRootThread";
+import { useCustomEditor } from "@/composables/useCustomEditor";
 import { storeToRefs } from "pinia";
 import { usePostStore } from "@/store/PostStore";
 import { getTimeAgo } from "@/utills";
@@ -119,7 +106,8 @@ import Button from "primevue/button";
 import Message from "primevue/message";
 import Textarea from "primevue/textarea";
 import FloatLabel from "primevue/floatlabel";
-import FileUpload from "primevue/fileupload";
+import ImageUploader from "@/components/ImageUploader.vue";
+
 import { nextTick } from "vue";
 const {
   isEditing,
@@ -127,12 +115,12 @@ const {
   validateForm,
   handleUpload,
   createRootThread,
-  fileUploadRef,
+
   threads,
   initializeThreads,
   activeEditorThreadId,
   toggleEditorForThread,
-} = useCreateThread();
+} = useCustomEditor();
 
 const postStore = usePostStore();
 const { selectedPost } = storeToRefs(postStore);

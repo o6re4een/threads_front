@@ -52,6 +52,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import InputText from "primevue/inputtext";
 import FloatLabel from "primevue/floatlabel";
 import { storeToRefs } from "pinia";
+import router from "@/router";
 
 const email = ref("");
 const user_password = ref("");
@@ -69,7 +70,7 @@ const handleLogin = async () => {
     console.log("Login successful");
     console.log(localStorage.getItem("token"));
     // Redirect to the home page or another page after successful login
-    window.location.href = "/user";
+    router.back();
   }
 };
 
@@ -77,7 +78,7 @@ onMounted(() => {
   const isAuth = auth.checkAuth();
   if (isAuth) {
     // If already authenticated, redirect to the user page
-    window.location.href = "/";
+    router.push({ name: "Home" });
   }
 });
 </script>

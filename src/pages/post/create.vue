@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold mb-6">Создание поста</h1>
 
     <Form
-      v-slot="{ title, content }"
+      v-slot="{ title, content, category }"
       :resolver="validateForm"
       @submit="handleCreatePost"
       class="space-y-4"
@@ -16,6 +16,24 @@
           title?.error?.message
         }}</Message>
       </FloatLabel>
+      <div>
+        <Select
+          name="category"
+          :options="categories"
+          optionValue="name"
+          optionLabel="name"
+          filter
+          placeholder="Выберите категорию"
+          fluid
+        />
+        <Message
+          v-if="category?.invalid"
+          severity="error"
+          size="small"
+          variant="simple"
+          >{{ category?.error?.message }}</Message
+        >
+      </div>
 
       <!-- Контент -->
       <FloatLabel>
@@ -27,20 +45,7 @@
       </FloatLabel>
 
       <!-- Загрузка изображения -->
-      <FileUpload
-        ref="fileUploadRef"
-        name="file"
-        :auto="true"
-        url="http://localhost:8000/uploads"
-        @upload="handleUpload"
-        accept="image/*"
-        :multiple="false"
-        :maxFileSize="5 * 1024 * 1024"
-      >
-        <template #empty>
-          <span>Перетащите изображение или нажмите для загрузки.</span>
-        </template>
-      </FileUpload>
+      <ImageUploader :on-upload="handleUpload" />
 
       <!-- Кнопка отправки -->
       <Button
@@ -53,22 +58,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import Select from "primevue/select";
 import { useRouter } from "vue-router";
 import { Form } from "@primevue/forms";
 import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
 import FloatLabel from "primevue/floatlabel";
 import Button from "primevue/button";
-import FileUpload from "primevue/fileupload";
 import Message from "primevue/message";
 import { usePostStore } from "@/store/PostStore";
+import ImageUploader from "@/components/ImageUploader.vue";
+import { storeToRefs } from "pinia";
+import type { createPostPayload } from "@/types";
 
 const router = useRouter();
 const postStore = usePostStore();
-
+const { categories } = storeToRefs(postStore);
 const fileUrl = ref<string | null>(null);
-const fileUploadRef = ref();
 
 const validateForm = (values: any) => {
   const errors: Record<string, any> = {};
@@ -87,12 +94,19 @@ const handleUpload = (event: any) => {
   }
 };
 
+onMounted(async () => {
+  if (!categories?.value?.length) {
+    await postStore.getCategories();
+  }
+});
+
 const handleCreatePost = async ({ values }: any) => {
   const processedValues = values.values;
-  const payload = {
+  const payload: createPostPayload = {
     title: processedValues.title,
     content: processedValues.content,
     image_url: fileUrl.value,
+    category: processedValues.category,
   };
 
   try {
