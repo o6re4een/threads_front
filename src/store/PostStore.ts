@@ -7,7 +7,7 @@ import type {
   createSubThreadPayload,
   Post,
 } from "@/types";
-import { useAuthStore } from "./auth";
+import { useAuthStore } from "@/store/Auth";
 import * as toast from "@/composables/toast";
 import type { AxiosError } from "axios";
 import { ref } from "vue";

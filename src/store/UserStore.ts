@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import instance from "@/axios";
-import { useAuthStore } from "./auth";
+import { useAuthStore } from "@/store/Auth";
 import type { Post, Thread, User } from "@/types";
 
 export const useUserStore = defineStore("user", {

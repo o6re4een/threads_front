@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/store/Auth";
 import ActionButton from "@/components/ActionButton.vue";
 import InputText from "primevue/inputtext";
 import FloatLabel from "primevue/floatlabel";

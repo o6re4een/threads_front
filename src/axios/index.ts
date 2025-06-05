@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/store/Auth";
 import axios from "axios";
 import * as toast from "@/composables/toast";
 

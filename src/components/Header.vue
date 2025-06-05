@@ -52,7 +52,7 @@
 import SearchBar from "@/components/Search.vue";
 import Menu from "primevue/menu";
 import Button from "primevue/button";
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/store/Auth";
 import { useRouter } from "vue-router";
 import { computed, onBeforeMount, onMounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
